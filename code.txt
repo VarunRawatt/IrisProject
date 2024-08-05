@@ -1,0 +1,43 @@
+function doGet(e) {
+  return HtmlService.createHtmlOutputFromFile('index'); 
+}
+
+function doPost(e) {
+  return HtmlService.createHtmlOutputFromFile('index'); // Handles POST requests if needed
+}
+
+function postVendors() {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var data = sheet.getDataRange().getValues();
+  return data;
+}
+
+function addVendor(vendor) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  sheet.appendRow(vendor);
+  return "Vendor added successfully!";
+}
+
+function updateVendor(vendor) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var data = sheet.getDataRange().getValues();
+  for (var i = 0; i < data.length; i++) {
+    if (data[i][0] == vendor[0]) {
+      sheet.getRange(i + 1, 1, 1, vendor.length).setValues([vendor]);
+      return "Vendor updated successfully!";
+    }
+  }
+  return "Vendor not found!";
+}
+
+function deleteVendor(id) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var data = sheet.getDataRange().getValues();
+  for (var i = 0; i < data.length; i++) {
+    if (data[i][0] == id) {
+      sheet.deleteRow(i + 1);
+      return "Vendor deleted successfully!";
+    }
+  }
+  return "Vendor not found!";
+}
